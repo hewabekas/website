@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEWA Tool - Advanced</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-orange: #ff7b00;
+            --deep-bg: #050505;
+            --glass: rgba(255, 255, 255, 0.05);
+            --red-alert: #ff2a6d;
+        }
+
+        /* --- 1. CORE SETUP --- */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--deep-bg);
+            background-image: radial-gradient(circle at 50% 50%, #1a1a2e 0%, #000000 100%);
+            font-family: 'Outfit', sans-serif;
+            color: white;
+            overflow-x: hidden;
+            min-height: 100vh;
+            /* CUSTOM CURSOR SETUP */
+            cursor: url('https://i.ibb.co/S41Dr9KD/icohewatool.png'), auto;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+
+        /* --- 2. BATMAN BACKGROUND (Improved) --- */
+        .bat-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .bat-symbol {
+            position: absolute;
+            font-size: 24px;
+            opacity: 0.0;
+            filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(110vh) scale(0.5) rotate(0deg); opacity: 0; }
+            20% { opacity: 0.4; }
+            80% { opacity: 0.4; }
+            100% { transform: translateY(-10vh) scale(1) rotate(45deg); opacity: 0; }
+        }
+
+        /* --- 3. WELCOME SECTION --- */
+        .welcome-section {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
+
+        .welcome-title {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(90deg, #ff7b00, #ffaa00, #ff7b00);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            text-shadow: 0 0 20px rgba(255, 123, 0, 0.5);
+            animation: glow 2s infinite alternate;
+        }
+
+        .welcome-subtitle {
+            font-size: 2rem;
+            font-weight: 300;
+            margin-top: 10px;
+            color: #ffaa00;
+            letter-spacing: 2px;
+        }
+
+        @keyframes glow {
+            from { text-shadow: 0 0 10px rgba(255, 123, 0, 0.5); }
+            to { text-shadow: 0 0 20px rgba(255, 123, 0, 0.8), 0 0 30px rgba(255, 123, 0, 0.6); }
+        }
+
+        /* --- 4. TOP GALLERY (The 6 Images) --- */
+        .top-container {
+            width: 100%;
+            padding: 20px 0 40px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 15px;
+            padding: 0 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .gallery-card {
+            position: relative;
+            height: 140px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .gallery-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(255, 123, 0, 0.3);
+            border-color: var(--primary-orange);
+        }
+
+        .gallery-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Mobile Grid */
+        @media (max-width: 900px) {
+            .gallery-grid { grid-template-columns: repeat(3, 1fr); }
+            .welcome-title { font-size: 3rem; }
+            .welcome-subtitle { font-size: 1.5rem; }
+        }
+        @media (max-width: 600px) {
+            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+            .welcome-title { font-size: 2.5rem; }
+            .welcome-subtitle { font-size: 1.2rem; }
+        }
+
+        /* --- 5. HEWA TOOL SECTION (Glassmorphism) --- */
+        .hewa-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 60vh;
+            padding: 20px;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 50px;
+            max-width: 900px;
+            width: 100%;
+            display: flex;
+            gap: 40px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Decorative shine on the card */
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .hewa-img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 20px;
+            box-shadow: 0 0 25px rgba(255, 123, 0, 0.2);
+            border: 2px solid rgba(255,255,255,0.1);
+        }
+
+        .hewa-content {
+            flex: 1;
+            z-index: 2;
+        }
+
+        .hewa-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin: 0;
+            background: linear-gradient(90deg, #fff, var(--primary-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .warning-box {
+            margin-top: 20px;
+            padding: 15px;
+            border-left: 4px solid var(--red-alert);
+            background: rgba(255, 42, 109, 0.1);
+            color: #ffadb6;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            border-radius: 0 10px 10px 0;
+        }
+
+        .warning-title {
+            display: block;
+            color: var(--red-alert);
+            font-weight: bold;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+        }
+
+        /* --- 6. THE DOWNLOAD BUTTON (Shine & Enlarge) --- */
+        .btn-wrapper {
+            margin-top: 35px;
+        }
+
+        .mega-btn {
+            position: relative;
+            background: linear-gradient(135deg, var(--primary-orange), #ff5500);
+            border: none;
+            color: white;
+            padding: 18px 60px;
+            font-size: 1.3rem;
+            font-weight: 700;
+            border-radius: 50px;
+            cursor: pointer;
+            overflow: hidden;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 10px 30px rgba(255, 123, 0, 0.4);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s;
+        }
+
+        .mega-btn:hover {
+            transform: scale(1.15); /* Enlarge */
+            box-shadow: 0 20px 50px rgba(255, 123, 0, 0.6);
+        }
+
+        /* The Shine Effect */
+        .mega-btn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.6), transparent);
+            transform: skewX(-20deg);
+            animation: btnShine 3s infinite;
+        }
+
+        @keyframes btnShine {
+            0% { left: -150%; }
+            20% { left: 150%; }
+            100% { left: 150%; }
+        }
+
+        /* Mobile layout for HEWA section */
+        @media (max-width: 900px) {
+            .glass-card { flex-direction: column; text-align: center; padding: 30px; }
+            .hewa-img { width: 180px; height: 180px; margin-bottom: 20px; }
+            .warning-box { text-align: left; }
+        }
+
+        /* --- 7. ADVANCED LIGHTBOX --- */
+        .lightbox-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            position: relative;
+            max-width: 85%;
+            max-height: 80vh;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+        }
+
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 80vh;
+            border-radius: 10px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            pointer-events: none;
+            transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        /* Slide animation classes */
+        .slide-next {
+            animation: slideNext 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        .slide-prev {
+            animation: slidePrev 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes slideNext {
+            0% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(-100px) scale(0.8);
+                opacity: 0;
+            }
+            51% {
+                transform: translateX(100px) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slidePrev {
+            0% { 
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+            50% {
+                transform: translateX(100px) scale(0.8);
+                opacity: 0;
+            }
+            51% {
+                transform: translateX(-100px) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translateX(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* RGB Buttons */
+        .rgb-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            color: white;
+            font-size: 2rem;
+            border: 2px solid white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+            animation: rgbLoop 2s infinite linear;
+            z-index: 1001;
+        }
+
+        .rgb-btn:hover { transform: translateY(-50%) scale(1.1); }
+        .rgb-btn.prev { left: 30px; }
+        .rgb-btn.next { right: 30px; }
+
+        @keyframes rgbLoop {
+            0% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000, inset 0 0 10px #ff0000; color: #ff0000; }
+            33% { border-color: #00ff00; box-shadow: 0 0 15px #00ff00, inset 0 0 10px #00ff00; color: #00ff00; }
+            66% { border-color: #0000ff; box-shadow: 0 0 15px #0000ff, inset 0 0 10px #0000ff; color: #0000ff; }
+            100% { border-color: #ff0000; box-shadow: 0 0 15px #ff0000, inset 0 0 10px #ff0000; color: #ff0000; }
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 40px;
+            font-size: 3rem;
+            color: white;
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+            z-index: 1001;
+        }
+        .close-btn:hover { opacity: 1; color: var(--red-alert); }
+
+        @media (max-width: 600px) {
+            .rgb-btn { width: 40px; height: 40px; font-size: 1.2rem; }
+            .rgb-btn.prev { left: 10px; }
+            .rgb-btn.next { right: 10px; }
+        }
+
+        /* --- 8. AUDIO PLAYER --- */
+        .audio-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border-radius: 50px;
+            padding: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 999;
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+        }
+
+        .visualizer {
+            width: 40px;
+            height: 30px;
+            display: flex;
+            align-items: flex-end;
+            gap: 3px;
+        }
+
+        .bar {
+            width: 4px;
+            background: linear-gradient(to top, #ff0000, #ff7b00, #ffff00, #00ff00, #0000ff);
+            border-radius: 2px;
+            animation: visualizer 0.8s infinite alternate;
+        }
+
+        .bar:nth-child(2) { animation-delay: 0.1s; }
+        .bar:nth-child(3) { animation-delay: 0.2s; }
+        .bar:nth-child(4) { animation-delay: 0.3s; }
+        .bar:nth-child(5) { animation-delay: 0.4s; }
+
+        @keyframes visualizer {
+            0% { height: 5px; }
+            100% { height: 25px; }
+        }
+
+        /* --- 9. SOCIAL MEDIA --- */
+        .social-section {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 999;
+        }
+
+        .contact-title {
+            color: var(--primary-orange);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            text-align: center;
+            text-shadow: 0 0 10px rgba(255, 123, 0, 0.5);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(255, 123, 0, 0.4);
+            border-color: var(--primary-orange);
+        }
+
+        .social-btn img {
+            width: 24px;
+            height: 24px;
+            filter: brightness(0) invert(1);
+            transition: transform 0.3s ease;
+        }
+
+        .social-btn:hover img {
+            transform: scale(1.2);
+        }
+
+    </style>
+</head>
+<body oncontextmenu="return false;">
+
+    <div class="bat-bg" id="batBg"></div>
+
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1 class="welcome-title">Welcome to HEWA BEKAS</h1>
+        <div class="welcome-subtitle">Life For Free</div>
+    </div>
+
+    <!-- Image Gallery -->
+    <div class="top-container">
+        <div class="gallery-grid">
+            <div class="gallery-card" onclick="openLight(0)"><img src="assets/images/img (1).png"></div>
+            <div class="gallery-card" onclick="openLight(1)"><img src="assets/images/img (2).png"></div>
+            <div class="gallery-card" onclick="openLight(2)"><img src="assets/images/img (3).png"></div>
+            <div class="gallery-card" onclick="openLight(3)"><img src="assets/images/img (4).png"></div>
+            <div class="gallery-card" onclick="openLight(4)"><img src="assets/images/img (5).png"></div>
+            <div class="gallery-card" onclick="openLight(5)"><img src="assets/images/img (6).png"></div>
+        </div>
+    </div>
+
+    <!-- HEWA Tool Section -->
+    <div class="hewa-container">
+        <div class="glass-card">
+            <img src="assets/images/hewatool.png" class="hewa-img" alt="HEWA Tool">
+            
+            <div class="hewa-content">
+                <h1 class="hewa-title">HEWA Tool</h1>
+                
+                <div class="warning-box">
+                    <span class="warning-title">⚠️ ئاگەداری</span>
+                    ەکان ئەتوانێ دایبگرێتStory modeئەم تووڵە تەنها یاریە<br>
+                    <strong>ەکان بکەیتonlineناتوانیت یاریە .</strong>
+                </div>
+
+                <div class="btn-wrapper">
+                    <a href="https://cdn2.permanent.org/originals/3540374/3540374?t=1780166908&response-content-disposition=attachment%3B+filename%3D%22HEWATOOL.zip%22&Expires=1780166908&Signature=FDA2sI8JwUjAf0QUJiMX9d00dFG8ZhmdsDHt1qU69DTFkwyLOqsQXVPpTo9T6iyJfxrjgf2usEpR5PZnuoYeYKqh62L8VSrM-0xm85X0nNQx76MAruw2vRY9rigUKwzKC35jWNLV6uNXbIlH22Sx270fGO0it9ubDyvW6vLRpDnoWerjCmbXisWEFxnEcdmeLFmrCdxsLqYGlIeGTIrhVS7yTkh-2NAiNQ0TWH5SRzy4wfkkBsrniNsZbvOjZD2MdeoUyNmPeVyeVJTiXTFzeePW1-486ETZeImwMpWXhGX2xqLgcTJXVY6Hlf4FsBSpmk67d-pFIoiPXh5BhkIt9w__&Key-Pair-Id=APKAJP2D34UGZ6IG443Q" class="mega-btn" style="text-decoration: none; display: inline-block; text-align: center;">Download</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox-overlay" id="lightbox">
+        <div class="close-btn" onclick="closeLight()">&times;</div>
+        
+        <button class="rgb-btn prev" onclick="moveSlide(-1)">❮</button>
+        
+        <div class="lightbox-content">
+            <img id="mainImage" src="">
+        </div>
+        
+        <button class="rgb-btn next" onclick="moveSlide(1)">❯</button>
+    </div>
+
+    <!-- Audio Player -->
+    <div class="audio-player">
+        <audio id="bgMusic" loop autoplay>
+            <source src="assets/audio/no.mp3" type="audio/mpeg">
+        </audio>
+        <div class="visualizer" id="visualizer">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+    </div>
+
+    <!-- Social Media Links -->
+    <div class="social-section">
+        <div class="contact-title">Contact Me</div>
+        <div class="social-links">
+            <a href="https://www.tiktok.com/@hama._.dead.eye" target="_blank" class="social-btn">
+                <img src="assets/icons/tiktok.png" alt="TikTok">
+            </a>
+            <a href="https://t.me/no_omment" target="_blank" class="social-btn">
+                <img src="assets/icons/telegram.png" alt="Telegram">
+            </a>
+            <a href="https://discord.com/users/1192134824702529547" target="_blank" class="social-btn">
+                <img src="assets/icons/discord.png" alt="Discord">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // --- DATA SETUP ---
+        const imageUrls = [
+            "assets/images/img (1).png",
+            "assets/images/img (2).png",
+            "assets/images/img (3).png",
+            "assets/images/img (4).png",
+            "assets/images/img (5).png",
+            "assets/images/img (6).png"
+        ];
+
+        let currentIndex = 0;
+        const lightbox = document.getElementById('lightbox');
+        const mainImage = document.getElementById('mainImage');
+        let isAnimating = false;
+
+        // --- BATMAN GENERATOR ---
+        function spawnBats() {
+            const container = document.getElementById('batBg');
+            const count = 20;
+
+            for (let i = 0; i < count; i++) {
+                let bat = document.createElement('div');
+                bat.className = 'bat-symbol';
+                bat.innerHTML = '🦇';
+                
+                bat.style.left = Math.random() * 100 + 'vw';
+                let duration = Math.random() * 15 + 10; 
+                bat.style.animationDuration = duration + 's';
+                bat.style.animationDelay = Math.random() * 10 + 's';
+                
+                container.appendChild(bat);
+            }
+        }
+        spawnBats();
+
+        // --- LIGHTBOX LOGIC ---
+        function openLight(index) {
+            currentIndex = index;
+            mainImage.src = imageUrls[currentIndex];
+            lightbox.style.display = 'flex';
+            setTimeout(() => {
+                lightbox.classList.add('active');
+            }, 10);
+        }
+
+        function closeLight() {
+            lightbox.classList.remove('active');
+            setTimeout(() => {
+                lightbox.style.display = 'none';
+            }, 300);
+        }
+
+        function moveSlide(dir) {
+            if (isAnimating) return;
+            
+            isAnimating = true;
+            currentIndex += dir;
+            if (currentIndex < 0) currentIndex = imageUrls.length - 1;
+            if (currentIndex >= imageUrls.length) currentIndex = 0;
+            
+            // Remove previous animation classes
+            mainImage.classList.remove('slide-next', 'slide-prev');
+            
+            // Force reflow
+            void mainImage.offsetWidth;
+            
+            // Add new animation class
+            if (dir === 1) {
+                mainImage.classList.add('slide-next');
+            } else {
+                mainImage.classList.add('slide-prev');
+            }
+            
+            // Change image after animation starts
+            setTimeout(() => {
+                mainImage.src = imageUrls[currentIndex];
+            }, 300);
+            
+            // Reset animation state
+            setTimeout(() => {
+                isAnimating = false;
+            }, 600);
+        }
+
+        // Close on background click
+        lightbox.addEventListener('click', (e) => {
+            if(e.target === lightbox) closeLight();
+        });
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (lightbox.style.display === 'flex') {
+                if (e.key === 'ArrowLeft') moveSlide(-1);
+                if (e.key === 'ArrowRight') moveSlide(1);
+                if (e.key === 'Escape') closeLight();
+            }
+        });
+
+        // --- AUDIO PLAYER ---
+        const bgMusic = document.getElementById('bgMusic');
+        const visualizer = document.getElementById('visualizer');
+
+        // Auto-play music when page loads
+        document.addEventListener('click', function initAudio() {
+            bgMusic.play().catch(e => console.log('Auto-play prevented'));
+            document.removeEventListener('click', initAudio);
+        });
+
+        // Visualizer animation control
+        bgMusic.addEventListener('play', () => {
+            visualizer.style.animationPlayState = 'running';
+        });
+
+        bgMusic.addEventListener('pause', () => {
+            visualizer.style.animationPlayState = 'paused';
+        });
+
+        // Security: Prevent Ctrl+S
+        document.addEventListener('keydown', e => {
+            if((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'u')) {
+                e.preventDefault();
+            }
+        });
+
+    </script>
+</body>
+</html>
